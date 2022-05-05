@@ -1,146 +1,113 @@
-
-import { readFileSync } from 'fs';
-import { marked } from 'marked';
-import { sanitizeHtml } from './sanitizer';
-import { ParsedRequest } from './types';
-const twemoji = require('twemoji');
-const twOptions = { folder: 'svg', ext: '.svg' };
+import { ParsedRequest } from "./types";
+const twemoji = require("twemoji");
+const twOptions = { folder: "svg", ext: ".svg" };
 const emojify = (text: string) => twemoji.parse(text, twOptions);
 
-const rglr = readFileSync(`${__dirname}/../_fonts/Inter-Regular.woff2`).toString('base64');
-const bold = readFileSync(`${__dirname}/../_fonts/Inter-Bold.woff2`).toString('base64');
-const mono = readFileSync(`${__dirname}/../_fonts/Vera-Mono.woff2`).toString('base64');
-
-function getCss(theme: string, fontSize: string) {
-    let background = 'white';
-    let foreground = 'black';
-    let radial = 'lightgray';
-
-    if (theme === 'dark') {
-        background = 'black';
-        foreground = 'white';
-        radial = 'dimgray';
-    }
-    return `
-    @font-face {
-        font-family: 'Inter';
-        font-style:  normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${rglr}) format('woff2');
+function getCss() {
+  return `
+    *{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    @font-face {
-        font-family: 'Inter';
-        font-style:  normal;
-        font-weight: bold;
-        src: url(data:font/woff2;charset=utf-8;base64,${bold}) format('woff2');
-    }
-
-    @font-face {
-        font-family: 'Vera';
-        font-style: normal;
-        font-weight: normal;
-        src: url(data:font/woff2;charset=utf-8;base64,${mono})  format("woff2");
-      }
-
-    body {
-        background: ${background};
-        background-image: radial-gradient(circle at 25px 25px, ${radial} 2%, transparent 0%), radial-gradient(circle at 75px 75px, ${radial} 2%, transparent 0%);
-        background-size: 100px 100px;
-        height: 100vh;
+    body{
+        font-family: 'Poppins', 'Vazirmatn', sans-serif;
+        // height:100vh;
         display: flex;
-        text-align: center;
-        align-items: center;
-        justify-content: center;
+        flex-direction: column;
+        justify-content: space-between;
+        background:#000;
+        color:#fff;
+        padding:2.5rem;
     }
-
-    code {
-        color: #D400FF;
-        font-family: 'Vera';
-        white-space: pre-wrap;
-        letter-spacing: -5px;
-    }
-
-    code:before, code:after {
-        content: '\`';
-    }
-
-    .logo-wrapper {
+      
+    .container{
+        width:100%;
         display: flex;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        justify-items: center;
+        flex-direction: column;
     }
 
-    .logo {
-        margin: 0 75px;
+    h1{
+      font-size:1.5rem;
     }
 
-    .plus {
-        color: #BBB;
-        font-family: Times New Roman, Verdana;
-        font-size: 100px;
+    .userinfo{
+        display:flex;
+        align-items:center;
+        margin-bottom:1rem;
     }
 
-    .spacer {
-        margin: 150px;
+    .userinfo img{
+      border-radius:100%;
+      width:3rem;
+      margin-right:0.7rem;
     }
 
-    .emoji {
-        height: 1em;
-        width: 1em;
-        margin: 0 .05em 0 .1em;
-        vertical-align: -0.1em;
+    .userinfo span{
+      font-size:1.1rem;
+       font-weight:500;
     }
-    
-    .heading {
-        font-family: 'Inter', sans-serif;
-        font-size: ${sanitizeHtml(fontSize)};
-        font-style: normal;
-        color: ${foreground};
-        line-height: 1.8;
-    }`;
+
+    .title{
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        margin-bottom:0.7rem;
+        font-size:1.5rem;
+    }
+
+    .optionsWrapper{
+      display:flex;
+       align-items:center;
+       margin-bottom:3rem;
+    }
+
+    .optionsWrapper span{
+      margin-left:0.5rem;
+    }
+    `;
 }
 
 export function getHtml(parsedReq: ParsedRequest) {
-    const { text, theme, md, fontSize, images, widths, heights } = parsedReq;
-    return `<!DOCTYPE html>
-<html>
-    <meta charset="utf-8">
-    <title>Generated Image</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        ${getCss(theme, fontSize)}
-    </style>
-    <body>
-        <div>
-            <div class="spacer">
-            <div class="logo-wrapper">
-                ${images.map((img, i) =>
-                    getPlusSign(i) + getImage(img, widths[i], heights[i])
-                ).join('')}
-            </div>
-            <div class="spacer">
-            <div class="heading">${emojify(
-                md ? marked(text) : sanitizeHtml(text)
-            )}
-            </div>
-        </div>
-    </body>
-</html>`;
+  const { title, optionsLength, username } = parsedReq;
+  const avatar = `https://avatars.dicebear.com/api/croodles-neutral/${username}.svg?b=%23ffffff`;
+
+  return `<!DOCTYPE html>
+  <html lang="en">
+      <meta charset="utf-8">
+      <title>Generated Image</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet">
+      <style>
+          ${getCss()}
+      </style>
+      <body>
+           ${ogTemplate({ username, avatar, title: emojify(title), optionsLength })}
+      </body>
+  </html>`;
 }
 
-function getImage(src: string, width ='auto', height = '225') {
-    return `<img
-        class="logo"
-        alt="Generated Image"
-        src="${sanitizeHtml(src)}"
-        width="${sanitizeHtml(width)}"
-        height="${sanitizeHtml(height)}"
-    />`
-}
-
-function getPlusSign(i: number) {
-    return i === 0 ? '' : '<div class="plus">+</div>';
-}
+export const ogTemplate = ({
+  avatar,
+  username,
+  title,
+  optionsLength,
+}: any) => `<div class="container">
+    <div class="userinfo">
+      <img src=${avatar} />
+      <span>${username}</span>
+    </div>
+    <h1 class="title">${title}</h1>
+    <div class="optionsWrapper">
+      <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M3.55688 9.5C3.55688 5.97918 6.41107 3.125 9.93188 3.125C13.4527 3.125 16.3069 5.97918 16.3069 9.5C16.3069 13.0208 13.4527 15.875 9.93188 15.875C6.41107 15.875 3.55688 13.0208 3.55688 9.5ZM9.93188 1.625C5.58264 1.625 2.05688 5.15076 2.05688 9.5C2.05688 13.8492 5.58264 17.375 9.93188 17.375C14.2811 17.375 17.8069 13.8492 17.8069 9.5C17.8069 5.15076 14.2811 1.625 9.93188 1.625ZM13.6289 7.65533C13.9218 7.36244 13.9218 6.88756 13.6289 6.59467C13.336 6.30178 12.8611 6.30178 12.5682 6.59467L9.14022 10.0227L8.08721 8.96967C7.79432 8.67678 7.31945 8.67678 7.02655 8.96967C6.73366 9.26256 6.73366 9.73744 7.02655 10.0303L8.60989 11.6137C8.90278 11.9066 9.37766 11.9066 9.67055 11.6137L13.6289 7.65533Z" fill="white"/>
+      </svg>
+      <span>${optionsLength} Options</span>
+    </div>
+    </div>
+<h1>VOTLY</h1>`;

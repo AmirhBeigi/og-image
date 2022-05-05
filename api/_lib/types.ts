@@ -1,13 +1,8 @@
-export type FileType = 'png' | 'jpeg';
-export type Theme = 'light' | 'dark';
+export type FileType = "png" | "jpeg";
 
 export interface ParsedRequest {
-    fileType: FileType;
-    text: string;
-    theme: Theme;
-    md: boolean;
-    fontSize: string;
-    images: string[];
-    widths: string[];
-    heights: string[];
+  fileType: FileType;
+  title: string;
+  username: string;
+  optionsLength: number;
 }
