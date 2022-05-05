@@ -1,32 +1,24 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@types/marked': 4.0.1
   '@types/puppeteer': 5.4.4
   '@types/puppeteer-core': 5.4.0
   chrome-aws-lambda: 7.0.0
-  marked: 4.0.10
   puppeteer-core: 13.1.2
   twemoji: 13.0.1
   typescript: 4.1.5
 
 dependencies:
   chrome-aws-lambda: 7.0.0_puppeteer-core@13.1.2
-  marked: 4.0.10
   puppeteer-core: 13.1.2
   twemoji: 13.0.1
 
 devDependencies:
-  '@types/marked': 4.0.1
   '@types/puppeteer': 5.4.4
   '@types/puppeteer-core': 5.4.0
   typescript: 4.1.5
 
 packages:
-
-  /@types/marked/4.0.1:
-    resolution: {integrity: sha512-ZigEmCWdNUU7IjZEuQ/iaimYdDHWHfTe3kg8ORfKjyGYd9RWumPoOJRQXB0bO+XLkNwzCthW3wUIQtANaEZ1ag==}
-    dev: true
 
   /@types/node/17.0.31:
     resolution: {integrity: sha512-AR0x5HbXGqkEx9CadRH3EBYx/VkiUgZIhP4wvPn/+5KIsgpNoyFaRlVe0Zlx9gRtg8fA06a9tskE2MSN7TcG4Q==}
@@ -253,12 +245,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       p-locate: 4.1.0
-    dev: false
-
-  /marked/4.0.10:
-    resolution: {integrity: sha512-+QvuFj0nGgO970fySghXGmuw+Fd0gD2x3+MqCWLIPf5oxdv1Ka6b2q+z9RP01P/IaKPMEramy+7cNy/Lw8c3hw==}
-    engines: {node: '>= 12'}
-    hasBin: true
     dev: false
 
   /minimatch/3.1.2:
